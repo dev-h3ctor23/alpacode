@@ -1,0 +1,99 @@
+:root {
+    --primary-color: rgb(121, 108, 197);
+}
+
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+}
+
+h1 {
+    text-align: center;
+}
+
+#participantes-lista {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1.5rem; /* Espaciado entre los elementos */
+    width: 100%;
+    margin-top: 2rem;
+}
+
+.participante {
+    background-color: white;
+    padding: 15px;
+    margin: 10px;
+    width: 45%;
+    border: 1px solid #ddd;
+    border-radius: 0.35rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    transition: 0.3s;
+}
+
+.participante:hover {
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+button {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 0.75rem;
+    border: none;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: 0.3s;
+    width: 100%;
+}
+
+button:hover {
+    background-color: #4CAF50; /* Cambié el color para que se destaque más en hover */
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--primary-color);
+}
+
+input, textarea {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+    margin: 1rem 0;
+}
+
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+.invalid {
+    border: 2px solid red;
+}
+
+.validation-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+}
+
+/* Responsive */
+@media (max-width: 850px) {
+    #participantes-lista {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .participante {
+        width: 90%;
+    }
+}
