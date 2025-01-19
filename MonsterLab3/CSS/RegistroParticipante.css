@@ -137,6 +137,13 @@ label {
     margin: 0;
 }
 
+/* mensaje de registro */
+.message-register{
+    text-align: center;
+    margin-bottom: 15px;
+    color: green;
+}
+
 @keyframes animate {
     from {
         transform: scale(1, 0);

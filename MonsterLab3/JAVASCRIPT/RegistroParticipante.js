@@ -186,20 +186,20 @@ function registrarParticipante(event) {
 }
 
 // Evento para cuando se envía el formulario
-document.getElementById("Registrarse").addEventListener("submit", function(event) {
+document.getElementById("registrationForm").addEventListener("submit", function(event) {
   event.preventDefault(); // Evita que el formulario se envíe y redirija
 
   // Llama a la función para registrar al participante
   registrarParticipante(event);
 
   // mostrar mensaje
-  const mensaje = document.createElement("p");
+  const mensaje = document.getElementById("message-register");
   mensaje.textContent = "Registro completado";
-  mensaje.style.textAlign = "center"; // Centra el mensaje si lo deseas
+  mensaje.style.textAlign = "center";
 
   // DOM
-  const formulario = document.getElementById("Registrarse");
-  formulario.appendChild(mensaje);  // esto el mensaje al final del formulario
+  //const formulario = document.getElementById("registrationForm");
+  //formulario.appendChild(mensaje);  // esto el mensaje al final del formulario
 });
 
 

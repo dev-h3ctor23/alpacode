@@ -68,9 +68,9 @@ function validateField(field, errorSpan, fieldDiv) {
     }
 }
 
-// Agregar evento blur a cada campo cuando se pierda el foco sin rellenar los campos
-nameInput.addEventListener("blur", () => validateField(nameInput, nameError, userFieldDiv));
-passwordInput.addEventListener("blur", () => validateField(passwordInput, passwordError, passwordFieldDiv));
+// Usamos focusout para detectar cuando el campo pierde el foco
+nameInput.addEventListener("focusout", () => validateField(nameInput, nameError, userFieldDiv));
+passwordInput.addEventListener("focusout", () => validateField(passwordInput, passwordError, passwordFieldDiv));
 
 // Función para validar el nombre de usuario en tiempo real y cuando se pierde el foco
 function validateUsername(nameInputRegister, nameErrorRegister, userRegisterFieldDiv) {
@@ -93,17 +93,7 @@ function validateUsername(nameInputRegister, nameErrorRegister, userRegisterFiel
     }
 }
 
-// Se valida el nombre de usuario en tiempo real y mantener el mensaje si ya existe
 nameInputRegister.addEventListener("input", () => validateUsername(nameInputRegister, nameErrorRegister, userRegisterFieldDiv));
-
-// Se agrega el evento blur hasta que se corrija el error del nombre de usuario
-nameInputRegister.addEventListener("blur", () => validateUsername(nameInputRegister, nameErrorRegister, userRegisterFieldDiv));
-
-// Validar el correo electrónico en tiempo real
-nameInputRegister.addEventListener("input", validateUsername);
-
-// También agregar la validación al perder el foco (blur)
-nameInputRegister.addEventListener("blur", validateEmail);
 
 
 // Expresión regular para validar el correo electrónico
@@ -129,11 +119,8 @@ function validateEmail(emailInput, emailError, emailFieldDiv) {
     }
 }
 
-// Se valida el nombre de usuario en tiempo real y mantener el mensaje si ya existe
-emailInput.addEventListener("input", () => validateEmail(emailInput, emailError, emailFieldDiv));
-
-// Se agrega el evento blur hasta que se corrija el error del nombre de usuario
-emailInput.addEventListener("blur", () => validateEmail(emailInput, emailError, emailFieldDiv));
+// Validar el correo al perder el foco
+emailInput.addEventListener("focusout", () => validateEmail(emailInput, emailError, emailFieldDiv));
 
 
 // Función para validar la contraseña
@@ -161,11 +148,8 @@ function validatePassword(passwordInputRegister, passwordErrorRegister, password
     }
 }
 
-// Validar la contraseña en tiempo real
-passwordInputRegister.addEventListener("input", () => validatePassword(passwordInputRegister, passwordErrorRegister, passwordRegisterFieldDiv));
-
-// Se agrega el evento blur hasta que se corrija el error
-passwordInputRegister.addEventListener("blur", () => validatePassword(passwordInputRegister, passwordErrorRegister, passwordRegisterFieldDiv));
+/// Validar la contraseña al perder el foco
+passwordInputRegister.addEventListener("focusout", () => validatePassword(passwordInputRegister, passwordErrorRegister, passwordRegisterFieldDiv));
 
 
 const loginForm = document.querySelector(".sign-in-form");
