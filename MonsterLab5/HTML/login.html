@@ -1,0 +1,105 @@
+<?php
+    include '../server/conexion.php';
+?>
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="../CSS/login.css">
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="signin-signup">
+            <!-- Formulario de inicio de sesión -->
+            <form action="" class="sign-in-form">
+                <h2 class="title">Iniciar sesión</h2>
+                <span class="error" id="name-error">Este campo es obligatorio</span>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <!-- Autocomplete agregado para el nombre de usuario -->
+                    <input type="text" name="user" id="user" placeholder="Usuario" autocomplete="username">
+                </div>
+                <span class="error" id="password-error">Este campo es obligatorio</span>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <!-- Autocomplete agregado para contraseñas existentes -->
+                    <input type="password" name="password" id="password" placeholder="Contraseña" autocomplete="current-password">
+                </div>
+                <input type="submit" value="Login" class="btn">
+                <div id="login-message" class="success-message"></div>
+                <p class="social-text">Iniciar sesión con otra plataforma</p>
+                <div class="social-media">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-google"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <button class="btn">Regresar a inicio</button>
+                <p class="account-text">¿NO TIENES UNA CUENTA? <a href="#" id="sign-up-btn2">Registrarse</a></p>
+            </form>
+
+            <!-- Formulario de registro -->
+            <form action="" class="sign-up-form">
+                <h2 class="title">Registrarse</h2>
+                <span class="error" id="name-error-register">Este campo es obligatorio</span>
+                <div class="input-field">
+                    <i class="fas fa-user"></i>
+                    <!-- Autocomplete agregado para el nombre de usuario -->
+                    <input type="text" name="user-register" id="user-register" placeholder="Usuario" autocomplete="username">
+                </div>
+                <span class="error" id="email-error">Este campo es obligatorio</span>
+                <div class="input-field">
+                    <i class="fas fa-envelope"></i>
+                    <!-- Autocomplete agregado para el correo electrónico -->
+                    <input type="text" name="email" id="email" placeholder="Email" autocomplete="email">
+                </div>
+                <span class="error" id="password-error-register">Este campo es obligatorio</span>
+                <div class="input-field">
+                    <i class="fas fa-lock"></i>
+                    <!-- Autocomplete agregado para contraseñas nuevas -->
+                    <input type="password" name="password-register" id="password-register" placeholder="Contraseña" autocomplete="new-password">
+                </div>
+                <input type="submit" value="Registrarse" class="btn">
+                <div id="register-message" class="success-message"></div>
+                <button class="btn">Regresar a inicio</button>
+                <p class="social-text">Iniciar sesión con otra plataforma</p>
+                <div class="social-media">
+                    <a href="#" class="social-icon"><i class="fab fa-facebook"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-twitter"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-google"></i></a>
+                    <a href="#" class="social-icon"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+                <p class="account-text">¿Ya tienes una cuenta? <a href="#" id="sign-in-btn2">Iniciar sesión</a></p>
+            </form>
+        </div>
+
+        <!-- Paneles -->
+        <div class="panels-container">
+            <div class="panel left-panel">
+                <div class="content">
+                    <h3>¿Ya estás registrado?</h3>
+                    <button class="btn" id="sign-in-btn">Iniciar sesión</button>
+                </div>
+                <img src="signin.svg" alt="" class="image">
+            </div>
+            <div class="panel right-panel">
+                <div class="content">
+                    <h3>¿No tienes cuenta?</h3>
+                    <p>Se parte del mejor campamento científico.</p>
+                    <button class="btn" id="sign-up-btn">Regístrate</button><br>
+                    <br><br><p>¿Ya estás registrado?</p>
+                    <p>Inscribe a tu niño para participar en el campamento</p>
+                    <button class="btn2" id="reg">Registrar Participante</button>
+                </div>
+                <img src="signup.svg" alt="" class="image">
+            </div>
+        </div>
+    </div>
+    <script src="../JAVASCRIPT/login.js"></script>
+</body>
+</html>

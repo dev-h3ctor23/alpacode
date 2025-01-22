@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro Participante</title>
+    <link rel="stylesheet" href="../CSS/RegistroParticipante.css" />
+</head>
+<body>
+    <form action="#" class="form" id="registrationForm">
+        <h2 class="text-center">Ficha de inscripción Niño</h2>
+        <div class="progressbar">
+            <div class="progress" id="progress"></div>
+            <div class="progress-step progress-step-active" data-title="Datos personales"></div>
+            <div class="progress-step" data-title="Ficha médica"></div>
+            <div class="progress-step" data-title="Datos del padre/madre"></div>
+            <div class="progress-step" data-title="Forma de pago"></div>
+            <div class="progress-step" data-title="Responsable de recogida"></div>
+        </div>
+
+        <div class="form-step form-step-active">
+            <div class="input-group">
+                <label for="firstName">Nombre</label>
+                <input type="text" name="firstName" id="firstName" />
+            </div>
+            <div class="input-group">
+                <label for="lastName">Apellido</label>
+                <input type="text" name="lastName" id="lastName" />
+            </div>
+            <div class="input-group">
+                <label for="lastName">Curso</label>
+                <input type="text" name="curso" id="curso" />
+            </div>
+            <div class="input-group">
+                <label for="dob">Fecha de nacimiento</label>
+                <input type="date" name="dob" id="dob" />
+            </div>
+            <div class="">
+                <a href="#" class="btn btn-next width-50 ml-auto">Siguiente</a><br>
+            </div>
+            
+        </div>
+
+        <div class="form-step">
+            <div class="input-group">
+                <label for="allergy-food">Especifique a que alimentos es alérgico:</label>
+                <textarea name="allergy-food" id="allergy-food" rows="2" cols="55"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="allergy-medicine">Especifique a que medicamentos es alérgico:</label>
+                <textarea name="allergy-medicine" id="allergy-medicine" rows="2" cols="55"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="medicine">Indique que medicamento se encuenta tomando:</label>
+                <textarea name="medicine" id="medicine" rows="2" cols="55"></textarea>
+            </div>
+            <div class="input-group">
+                <label for="username-contact-emergency">Nombre del contacto de emergencia</label>
+                <input type="text" name="username-contact-emergency" id="username-contact-emergency" />
+            </div>
+            <div class="input-group">
+                <label for="phone-contact-emergency">Teléfono del contacto de emergencia</label>
+                <input type="tel" name="phone-contact-emergency" id="phone-contact-emergency" />
+            </div>
+
+            <div class="btns-group">
+                <a href="#" class="btn btn-prev">Atras</a>
+                <a href="#" class="btn btn-next">Siguiente</a>
+            </div>
+        </div>
+
+        <div class="form-step">
+            <div class="input-group">
+                <label for="Nombre">Nombre</label>
+                <input type="text" name="Nombre" id="Nombre" />
+            </div>
+            <div class="input-group">
+                <label for="text">Apellidos</label>
+                <input type="text" name="Apellidos" id="Apellidos" />
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="email" />
+            </div>
+            <div class="input-group">
+                <label for="Telefono">Teléfono</label>
+                <input type="tel" name="Telefono" id="Telefono" />
+            </div>
+            <div class="btns-group">
+                <a href="#" class="btn btn-prev">Atras</a>
+                <a href="#" class="btn btn-next">Siguiente</a>
+            </div>
+        </div>
+
+        <div class="form-step">
+            <div class="input-group2">
+                <label for="Tranferencia Barcaria">Tranferencia Barcaria</label>
+                <input type="radio" name="formaPago" id="Tranferencia Barcaria" />
+            </div>
+            <div class="input-group2">
+                <label for="Bizum">Bizum</label>
+                <input type="radio" name="formaPago" id="Bizum" />
+            </div>
+            <div class="input-group2">
+                <label for="PagoEnCentro">Pago en Centro Educativo</label>
+                <input type="radio" name="formaPago" id="PagoEnCentro" />
+            </div>
+            <div class="btns-group">
+                <a href="#" class="btn btn-prev">Atras</a>
+                <a href="#" class="btn btn-next">Siguiente</a>
+            </div>
+        </div>
+
+        <div class="form-step">
+            <div class="input-group">
+                <label for="Nombre">Nombre</label>
+                <input type="text" name="Nombre" id="NombreResp" />
+            </div>
+            <div class="input-group">
+                <label for="text">Apellidos</label>
+                <input type="text" name="Apellidos" id="ApellidosResp" />
+            </div>
+            <div>
+                <label for="email">Email</label>
+                <input type="email" name="email" id="emailResp" />
+            </div>
+            <div class="input-group">
+                <label for="Telefono">Teléfono</label>
+                <input type="tel" name="Telefono" id="TelefonoResp" />
+            </div>
+            <div class="message-register"><span id="message-register"></span></div>
+            <div class="btns-group">
+                <a href="#" class="btn btn-prev">Atras</a>
+                <input type="submit" value="Registrarse" class="btn" id="Registrarse" />
+                <input type="button" value="Mostrar Participante" class="btn" id="MostrarParticipante" />  <!-- Botón para redireccionar a la página de mostrar información -->
+                <input type="button" value="Volver a inicio" class="btn" id="VolverInicio" /> <!-- Botón para redireccionar al inicio -->
+            </div>
+        </div>
+    </form>
+
+    <div class="social_media_div">
+        <ul class="icons_list">
+            <li>
+                <a href="https://web.whatsapp.com/" target="_blank">
+                    <img src="../IMG/whatsapp.png" alt="WhatsApp" class="social-icon">
+                </a>
+            </li>
+        </ul>
+    </div>
+    
+    <script src="../JAVASCRIPT/RegistroParticipante.js"></script>
+</body>
+</html>
