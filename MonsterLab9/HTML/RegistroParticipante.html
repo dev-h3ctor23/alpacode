@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Registro Participante</title>
+  <link rel="stylesheet" href="../CSS/RegistroParticipante.css" />
+</head>
+<body>
+  <form class="form" id="registrationForm">
+    <h2 class="text-center">Ficha de inscripción Niño</h2>
+    <div class="progressbar">
+      <div class="progress" id="progress"></div>
+      <div class="progress-step progress-step-active" data-title="Datos personales"></div>
+      <div class="progress-step" data-title="Ficha médica"></div>
+      <div class="progress-step" data-title="Forma de pago"></div>
+      <div class="progress-step" data-title="Responsable"></div>
+    </div>
+
+    <!-- ===== Paso 1: Datos personales del Niño ===== -->
+    <div class="form-step form-step-active">
+      <div class="input-group">
+        <label for="firstName">Nombre</label>
+        <input type="text" id="firstName" />
+      </div>
+      <div class="input-group">
+        <label for="lastName">Apellido</label>
+        <input type="text" id="lastName" />
+      </div>
+      <div class="input-group">
+        <label for="dni">DNI</label>
+        <input type="text" id="dni" />
+      </div>
+      <div class="input-group">
+        <label for="dob">Fecha de nacimiento</label>
+        <input type="date" id="dob" />
+      </div>
+      <div>
+        <a href="#" class="btn btn-next width-50 ml-auto">Siguiente</a><br>
+      </div>
+    </div>
+
+    <!-- ===== Paso 2: Ficha médica ===== -->
+    <div class="form-step">
+      <div class="input-group">
+        <label for="allergy-food">Alérgico a alimentos:</label>
+        <textarea id="allergy-food" rows="2"></textarea>
+      </div>
+      <div class="input-group">
+        <label for="allergy-medicine">Alérgico a medicamentos:</label>
+        <textarea id="allergy-medicine" rows="2"></textarea>
+      </div>
+      <div class="input-group">
+        <label for="medicine">Medicamento actual:</label>
+        <textarea id="medicine" rows="2"></textarea>
+      </div>
+      <div class="input-group">
+        <label for="username-contact-emergency">Contacto de emergencia</label>
+        <input type="text" id="username-contact-emergency" />
+      </div>
+      <div class="input-group">
+        <label for="phone-contact-emergency">Teléfono emergencia</label>
+        <input type="tel" id="phone-contact-emergency" />
+      </div>
+
+      <div class="btns-group">
+        <a href="#" class="btn btn-prev">Atrás</a>
+        <a href="#" class="btn btn-next">Siguiente</a>
+      </div>
+    </div>
+
+    <!-- ===== Paso 3: Forma de pago ===== -->
+    <div class="form-step">
+      <div class="input-group2">
+        <label for="TranferenciaBarcaria">Transferencia bancaria</label>
+        <input type="radio" name="formaPago" id="TranferenciaBarcaria" />
+      </div>
+      <div class="input-group2">
+        <label for="Bizum">Bizum</label>
+        <input type="radio" name="formaPago" id="Bizum" />
+      </div>
+      <div class="input-group2">
+        <label for="PagoEnCentro">Pago en Centro Educativo</label>
+        <input type="radio" name="formaPago" id="PagoEnCentro" />
+      </div>
+      <div class="btns-group">
+        <a href="#" class="btn btn-prev">Atrás</a>
+        <a href="#" class="btn btn-next">Siguiente</a>
+      </div>
+    </div>
+
+    <!-- ===== Paso 4: Responsable (Guardian) ===== -->
+    <div class="form-step">
+      <div class="input-group">
+        <label for="NombreResp">Nombre</label>
+        <input type="text" id="NombreResp" />
+      </div>
+      <div class="input-group">
+        <label for="ApellidosResp">Apellidos</label>
+        <input type="text" id="ApellidosResp" />
+      </div>
+      <div class="input-group">
+        <label for="dniResp">DNI</label>
+        <input type="text" id="dniResp" />
+      </div>
+      <div class="input-group">
+        <label for="TelefonoResp">Teléfono</label>
+        <input type="tel" id="TelefonoResp" />
+      </div>
+      <div class="input-group">
+        <label for="relacionResp">Relacion con el Nino</label>
+        <input type="text" id="relacionResp" />
+      </div>
+      <div class="message-register"><span id="message-register"></span></div>
+      <div class="btns-group">
+        <a href="#" class="btn btn-prev">Atrás</a>
+        <!-- BOTÓN PARA ABRIR EL MODAL DE CONFIRMACIÓN -->
+        <button type="button" class="btn" id="btnShowModal">Mostrar Resumen</button>
+      </div>
+    </div>
+  </form>
+
+  <!-- ============ MODAL DE CONFIRMACIÓN ============ -->
+  <div id="myModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <span id="closeModal" class="close">&times;</span>
+      <h3>Resumen de Inscripción</h3>
+      <div id="modal-body">
+        <!-- Aquí se inyecta el resumen de datos -->
+      </div>
+      <br>
+      <button id="btnGuardarDatos">Guardar información</button>
+    </div>
+  </div>
+
+  <div class="social_media_div">
+    <ul class="icons_list">
+      <li>
+        <a href="https://web.whatsapp.com/" target="_blank">
+          <img src="../IMG/whatsapp.png" alt="WhatsApp" class="social-icon">
+        </a>
+      </li>
+    </ul>
+  </div>
+
+  <script src="../JAVASCRIPT/RegistroParticipante.js"></script>
+</body>
+</html>
