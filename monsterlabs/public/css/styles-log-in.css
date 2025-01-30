@@ -1,0 +1,104 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+body {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+    background: #F8F8F8;
+}
+.contenido {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    flex-grow: 1;
+}
+.contenedor-inicio {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    padding: 2rem;
+}
+.contenedor-inicio h1 {
+    font-size: 1.8rem;
+    color: #666;
+    font-weight: bold;
+}
+.contenedor-inicio p {
+    font-size: 1rem;
+    color: #888;
+    margin-bottom: 1.5rem;
+}
+.formulario-inicio {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    max-width: 300px;
+}
+.formulario-inicio label {
+    text-align: left;
+    font-size: 0.9rem;
+    color: #666;
+    margin-bottom: 0.3rem;
+}
+.formulario-inicio input {
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    width: 100%;
+}
+.formulario-inicio button {
+    padding: 10px;
+    background: #888;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.formulario-inicio button:hover {
+    background: #666;
+}
+.enlace-registro {
+    font-size: 0.9rem;
+    color: #666;
+    margin-top: 1rem;
+}
+.enlace-registro a {
+    color: #00f;
+    text-decoration: none;
+}
+.enlace-registro a:hover {
+    text-decoration: underline;
+}
+.barra-lateral {
+    background: #888;
+    border-radius: 10px;
+    width: 685px;
+    height: 736px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+    padding: 1rem;
+}
+.boton-volver {
+    background: white;
+    border: none;
+    padding: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+.pie-pagina {
+    width: 100%;
+    background: #666;
+    height: 184px;
+}
