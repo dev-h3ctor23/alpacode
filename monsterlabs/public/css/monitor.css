@@ -1,0 +1,113 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Poppins', sans-serif;
+    justify-content: center;
+    align-items: center;
+    /* min-height: 100vh; */
+    background-color: #eaeaea;
+    /* margin-top: 80px; Asegura que el contenido no quede oculto detrás del navbar */
+    overflow-y: auto; 
+    font-size: 1.2em;
+}
+
+.container {
+    display: flex;
+    height: 100vh;
+}
+.photo{
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    margin: 20px;
+    overflow: hidden;
+    border: 4px solid #eaeaea;
+}
+
+.photo img{
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.sidebar div{
+    margin: 15px;
+}
+
+ /* Empuja la clase .logo hacia abajo */
+.navbar-menu {
+    flex-grow: 1;
+}
+
+.logo {
+    margin-top: auto; 
+    padding-bottom: 10px; 
+}
+
+.logo img {
+    width: 100%;
+    height: 100%;
+}
+
+/* Menú lateral */
+.monitor-panel {
+    width: 270px; /* Ancho fijo del menú lateral */
+    flex-shrink: 0; /* Evita que el aside se reduzca */
+}
+.sidebar {
+    width: 270px;
+    height: 100vh;
+    background-color: #282828;
+    color: white;
+    display: flex;
+    align-items: center;
+    padding: 20px 0;
+    position : fixed;
+    left: 0; 
+    top: 0;
+    overflow-y: auto; 
+    text-align: center;
+    flex-direction: column;
+}
+
+.sidebar .navbar-menu a {
+    text-decoration: none;
+    color: white;
+    display: block;
+    padding: 15px 20px;
+    width: 100%;
+    text-align: center;
+    transition: background-color 0.3s;
+}
+
+.sidebar .navbar-menu a:hover {
+    background-color: #cfcecf79;
+}
+
+.sidebar .navbar-menu a.active {
+    background-color: #9a4e9e79;
+}
+
+/* Área de contenido */
+.content {
+    flex-grow: 1; */
+    background-color: #eeeeee;
+    width: 100%;
+    height: 100vh;
+    flex-direction: column;
+}
+
+
+.section {
+    display: none; 
+    padding: 20px;
+    margin: 20px 0;
+}
+.section:target {
+    display: block;
+}
