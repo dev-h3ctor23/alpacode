@@ -1,0 +1,86 @@
+body {
+    font-family: Arial, sans-serif; 
+    margin: 0; 
+    padding: 0; 
+    background-color: #f0f0f0;
+  }
+  header {
+    background-color: #A020F0;
+    color: #fff;
+    padding: 15px;
+    text-align: center;
+  }
+  .mensaje {
+    margin: 0 20px;
+    font-weight: bold;
+    color: green;
+  }
+  .contenedor {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    padding: 20px;
+  }
+  .bloque {
+    background: #fff;
+    flex: 1 1 300px; /* ancho mínimo de 300px */
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 15px;
+    margin-bottom: 20px;
+  }
+  h2 {
+    color: #A020F0;
+    margin-bottom: 10px;
+  }
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 20px;
+  }
+  label {
+    font-weight: bold;
+  }
+  input[type="text"],
+  input[type="date"],
+  input[type="time"],
+  input[type="number"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+    border-radius: 3px;
+    width: 80%;
+  }
+  button {
+    background-color: #A020F0;
+    color: #fff;
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  button:hover {
+    background-color: #8A1CC9;
+  }
+  /* ========== Tablas de Listado ========== */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+  }
+  table th,
+  table td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  table thead {
+    background-color: #A020F0;
+    color: #fff;
+  }
+  table caption {
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #A020F0;
+    text-align: left;
+  }

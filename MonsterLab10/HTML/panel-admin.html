@@ -1,0 +1,521 @@
+<?php
+session_start();
+
+// 1. Verificar si el usuario NO está logueado o no es admin
+if (!isset($_SESSION['nombre_usuario'])) {
+    header('Location: login.html?error=not_logged_in');
+    exit;
+}
+
+// Si tu login guarda el tipo de usuario en la sesión, por ejemplo:
+if (!isset($_SESSION['tipo_usuario']) || $_SESSION['tipo_usuario'] !== 'admin') {
+    // O si no lo guardaste, podrías consultar la BD. Aquí asumo que ya está guardado.
+    header('Location: login.html?error=not_admin');
+    exit;
+}
+
+// 2. Incluir la conexión
+include '../server/conexion.php';
+
+// 3. Manejo de formularios: si llega method=POST, vemos qué tabla se está manipulando
+$message = ''; // Para mostrar mensajes de éxito o error en la interfaz
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    // Determinar qué acción y qué entidad
+    $action  = $_POST['action']  ?? '';
+    $entity  = $_POST['entity']  ?? '';
+
+    try {
+        /* =========================================
+           GESTIÓN DE MONITOR
+        ========================================= */
+        if ($entity === 'monitor') {
+            if ($action === 'create') {
+                // Recibir datos
+                $dni_monitor = trim($_POST['dni_monitor'] ?? '');
+                $nombre      = trim($_POST['nombre'] ?? '');
+                $apellido    = trim($_POST['apellido'] ?? '');
+                $telefono    = trim($_POST['telefono'] ?? '');
+                $id_usuario  = trim($_POST['id_usuario'] ?? '');
+
+                // Insertar en la tabla Monitor
+                $sql = "INSERT INTO Monitor (dni_monitor, nombre, apellido, numero_telefono, id_usuario)
+                        VALUES (?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ssssi", $dni_monitor, $nombre, $apellido, $telefono, $id_usuario);
+                $stmt->execute();
+
+                $message = "Monitor creado correctamente.";
+            }
+            elseif ($action === 'delete') {
+                // Eliminar un monitor por DNI
+                $dni_monitor = trim($_POST['dni_monitor'] ?? '');
+                $sql = "DELETE FROM Monitor WHERE dni_monitor = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("s", $dni_monitor);
+                $stmt->execute();
+
+                $message = "Monitor con DNI $dni_monitor eliminado (si existía).";
+            }
+        }
+        /* =========================================
+           GESTIÓN DE CRONOGRAMA
+        ========================================= */
+        elseif ($entity === 'cronograma') {
+            if ($action === 'create') {
+                $fecha       = trim($_POST['fecha'] ?? '');
+                $hora_inicio = trim($_POST['hora_inicio'] ?? '');
+                $hora_fin    = trim($_POST['hora_fin'] ?? '');
+                $desc        = trim($_POST['descripcion'] ?? '');
+                $id_user     = trim($_POST['id_usuario'] ?? '');
+
+                $sql = "INSERT INTO Cronograma (fecha, hora_inicio, hora_fin, descripcion, id_usuario)
+                        VALUES (?, ?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ssssi", $fecha, $hora_inicio, $hora_fin, $desc, $id_user);
+                $stmt->execute();
+
+                $message = "Cronograma creado correctamente.";
+            }
+            elseif ($action === 'delete') {
+                $id_cron = trim($_POST['id_cronograma'] ?? '');
+                $sql = "DELETE FROM Cronograma WHERE id_cronograma = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $id_cron);
+                $stmt->execute();
+
+                $message = "Cronograma con ID $id_cron eliminado (si existía).";
+            }
+        }
+        /* =========================================
+           GESTIÓN DE ACTIVIDAD
+        ========================================= */
+        elseif ($entity === 'actividad') {
+            if ($action === 'create') {
+                $nombre_actividad = trim($_POST['nombre_actividad'] ?? '');
+                $dni_monitor      = trim($_POST['dni_monitor'] ?? null);
+
+                $sql = "INSERT INTO Actividad (nombre_actividad, dni_monitor)
+                        VALUES (?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ss", $nombre_actividad, $dni_monitor);
+                $stmt->execute();
+
+                $message = "Actividad creada correctamente.";
+            }
+            elseif ($action === 'delete') {
+                $id_actividad = trim($_POST['id_actividad'] ?? '');
+                $sql = "DELETE FROM Actividad WHERE id_actividad = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("i", $id_actividad);
+                $stmt->execute();
+
+                $message = "Actividad con ID $id_actividad eliminada (si existía).";
+            }
+        }
+        /* =========================================
+           GESTIÓN DE CRONOGRAMA_ACTIVIDAD
+        ========================================= */
+        elseif ($entity === 'cronograma_actividad') {
+            if ($action === 'create') {
+                $id_cronograma = trim($_POST['id_cronograma'] ?? '');
+                $id_actividad  = trim($_POST['id_actividad']  ?? '');
+                $hora_asignada = trim($_POST['hora_asignada'] ?? '');
+                $duracion      = trim($_POST['duracion']      ?? '');
+
+                $sql = "INSERT INTO CronogramaActividad (id_cronograma, id_actividad, hora_asignada, duracion)
+                        VALUES (?, ?, ?, ?)";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("iisi", $id_cronograma, $id_actividad, $hora_asignada, $duracion);
+                $stmt->execute();
+
+                $message = "Asociación Cronograma-Actividad creada correctamente.";
+            }
+            elseif ($action === 'delete') {
+                $id_cronograma = trim($_POST['id_cronograma'] ?? '');
+                $id_actividad  = trim($_POST['id_actividad']  ?? '');
+
+                $sql = "DELETE FROM CronogramaActividad
+                        WHERE id_cronograma = ? AND id_actividad = ?";
+                $stmt = $conn->prepare($sql);
+                $stmt->bind_param("ii", $id_cronograma, $id_actividad);
+                $stmt->execute();
+
+                $message = "Relación (Cronograma=$id_cronograma, Actividad=$id_actividad) eliminada (si existía).";
+            }
+        }
+
+    } catch (Exception $e) {
+        $message = "Error: " . $e->getMessage();
+    }
+} // Fin if POST
+
+// 4. Listar los registros de cada tabla para mostrarlos en tablas
+
+// -- Monitores
+$monitores = [];
+$sqlMon = "SELECT dni_monitor, nombre, apellido, numero_telefono, id_usuario FROM Monitor";
+$resMon = $conn->query($sqlMon);
+if ($resMon && $resMon->num_rows > 0) {
+    while($row = $resMon->fetch_assoc()) {
+        $monitores[] = $row;
+    }
+}
+
+// -- Usuarios
+$usuarios = [];
+$sqlMon = "SELECT id_usuario, nombre_usuario, correo, nombre_tipo FROM Usuario";
+$resMon = $conn->query($sqlMon);
+if ($resMon && $resMon->num_rows > 0) {
+    while($row = $resMon->fetch_assoc()) {
+        $usuarios[] = $row;
+    }
+}
+
+// -- Cronogramas
+$cronogramas = [];
+$sqlCron = "SELECT id_cronograma, fecha, hora_inicio, hora_fin, descripcion, id_usuario FROM Cronograma";
+$resCron = $conn->query($sqlCron);
+if ($resCron && $resCron->num_rows > 0) {
+    while($row = $resCron->fetch_assoc()) {
+        $cronogramas[] = $row;
+    }
+}
+
+// -- Actividades
+$actividades = [];
+$sqlAct = "SELECT id_actividad, nombre_actividad, dni_monitor FROM Actividad";
+$resAct = $conn->query($sqlAct);
+if ($resAct && $resAct->num_rows > 0) {
+    while($row = $resAct->fetch_assoc()) {
+        $actividades[] = $row;
+    }
+}
+
+// -- CronogramaActividad
+$cronogramaActividades = [];
+$sqlCA = "
+SELECT ca.id_cronograma, c.fecha, ca.id_actividad, a.nombre_actividad,
+       ca.hora_asignada, ca.duracion
+FROM CronogramaActividad ca
+JOIN Cronograma c ON ca.id_cronograma = c.id_cronograma
+JOIN Actividad a  ON ca.id_actividad  = a.id_actividad
+";
+$resCA = $conn->query($sqlCA);
+if ($resCA && $resCA->num_rows > 0) {
+    while($row = $resCA->fetch_assoc()) {
+        $cronogramaActividades[] = $row;
+    }
+}
+
+// -- Cerrar conexión si no la necesitas más adelante
+$conn->close();
+?>
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel de Administración</title>
+  <link rel="stylesheet" href="../CSS/panel-admin.css">
+</head>
+<body>
+<header>
+  <h1>Panel de Administración</h1>
+  <p>Usuario: <?php echo $_SESSION['nombre_usuario']; ?> (Admin)</p>
+</header>
+
+<?php if (!empty($message)): ?>
+  <div class="mensaje"><?php echo $message; ?></div>
+<?php endif; ?>
+
+
+<?php if (!empty($usuarios)): ?>
+      <table>
+        <caption>Usuario Existentes</caption>
+        <thead>
+          <tr>
+            <th>ID USUARIO</th>
+            <th>Nombre del Usuario</th>
+            <th>Correo</th>
+            <th>Tipo</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($usuarios as $m): ?>
+            <tr>
+              <td><?php echo $m['id_usuario']; ?></td>
+              <td><?php echo $m['nombre_usuario']; ?></td>
+              <td><?php echo $m['correo']; ?></td>
+              <td><?php echo $m['nombre_tipo']; ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php else: ?>
+      <p>No hay usuarios registrados.</p>
+    <?php endif; ?>
+
+<div class="contenedor">
+  <!-- GESTION MONITOR -->
+  <div class="bloque">
+    <h2>Gestionar Monitor</h2>
+    <!-- Crear Monitor -->
+    <form method="POST">
+      <input type="hidden" name="entity" value="monitor">
+      <input type="hidden" name="action" value="create">
+      
+      <label>DNI Monitor:</label>
+      <input type="text" name="dni_monitor" required>
+      
+      <label>Nombre:</label>
+      <input type="text" name="nombre" required>
+      
+      <label>Apellido:</label>
+      <input type="text" name="apellido" required>
+      
+      <label>Teléfono:</label>
+      <input type="text" name="telefono">
+      
+      <label>ID Usuario (FK):</label>
+      <input type="number" name="id_usuario" required>
+      
+      <button type="submit">Crear Monitor</button>
+    </form>
+    
+    <!-- Eliminar Monitor -->
+    <form method="POST">
+      <input type="hidden" name="entity" value="monitor">
+      <input type="hidden" name="action" value="delete">
+      
+      <label>DNI Monitor a Eliminar:</label>
+      <input type="text" name="dni_monitor" required>
+      
+      <button type="submit">Eliminar Monitor</button>
+    </form>
+
+    <!-- LISTADO DE MONITORES -->
+    <?php if (!empty($monitores)): ?>
+      <table>
+        <caption>Monitores Existentes</caption>
+        <thead>
+          <tr>
+            <th>DNI</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Teléfono</th>
+            <th>ID Usuario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($monitores as $m): ?>
+            <tr>
+              <td><?php echo $m['dni_monitor']; ?></td>
+              <td><?php echo $m['nombre']; ?></td>
+              <td><?php echo $m['apellido']; ?></td>
+              <td><?php echo $m['numero_telefono']; ?></td>
+              <td><?php echo $m['id_usuario']; ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php else: ?>
+      <p>No hay monitores registrados.</p>
+    <?php endif; ?>
+  </div>
+
+  <!-- GESTION CRONOGRAMA -->
+  <div class="bloque">
+    <h2>Gestionar Cronograma</h2>
+    <!-- Crear Cronograma -->
+    <form method="POST">
+      <input type="hidden" name="entity" value="cronograma">
+      <input type="hidden" name="action" value="create">
+      
+      <label>Fecha:</label>
+      <input type="date" name="fecha" required>
+      
+      <label>Hora Inicio:</label>
+      <input type="time" name="hora_inicio" required>
+      
+      <label>Hora Fin:</label>
+      <input type="time" name="hora_fin" required>
+      
+      <label>Descripción:</label>
+      <input type="text" name="descripcion" required>
+      
+      <label>ID Usuario (FK):</label>
+      <input type="number" name="id_usuario" required>
+      
+      <button type="submit">Crear Cronograma</button>
+    </form>
+
+    <!-- Eliminar Cronograma -->
+    <form method="POST">
+      <input type="hidden" name="entity" value="cronograma">
+      <input type="hidden" name="action" value="delete">
+      
+      <label>ID Cronograma a Eliminar:</label>
+      <input type="number" name="id_cronograma" required>
+      
+      <button type="submit">Eliminar Cronograma</button>
+    </form>
+
+    <!-- LISTADO DE CRONOGRAMAS -->
+    <?php if (!empty($cronogramas)): ?>
+      <table>
+        <caption>Cronogramas Existentes</caption>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Hora Inicio</th>
+            <th>Hora Fin</th>
+            <th>Descripción</th>
+            <th>ID Usuario</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($cronogramas as $c): ?>
+            <tr>
+              <td><?php echo $c['id_cronograma']; ?></td>
+              <td><?php echo $c['fecha']; ?></td>
+              <td><?php echo $c['hora_inicio']; ?></td>
+              <td><?php echo $c['hora_fin']; ?></td>
+              <td><?php echo $c['descripcion']; ?></td>
+              <td><?php echo $c['id_usuario']; ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php else: ?>
+      <p>No hay cronogramas registrados.</p>
+    <?php endif; ?>
+  </div>
+
+  <!-- GESTION ACTIVIDAD -->
+  <div class="bloque">
+    <h2>Gestionar Actividad</h2>
+    <!-- Crear Actividad -->
+    <form method="POST">
+      <input type="hidden" name="entity" value="actividad">
+      <input type="hidden" name="action" value="create">
+      
+      <label>Nombre Actividad:</label>
+      <input type="text" name="nombre_actividad" required>
+      
+      <label>DNI Monitor (opcional):</label>
+      <input type="text" name="dni_monitor">
+      
+      <button type="submit">Crear Actividad</button>
+    </form>
+
+    <!-- Eliminar Actividad -->
+    <form method="POST">
+      <input type="hidden" name="entity" value="actividad">
+      <input type="hidden" name="action" value="delete">
+      
+      <label>ID Actividad a Eliminar:</label>
+      <input type="number" name="id_actividad" required>
+      
+      <button type="submit">Eliminar Actividad</button>
+    </form>
+
+    <!-- LISTADO DE ACTIVIDADES -->
+    <?php if (!empty($actividades)): ?>
+      <table>
+        <caption>Actividades Existentes</caption>
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>Nombre Actividad</th>
+            <th>DNI Monitor</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($actividades as $act): ?>
+            <tr>
+              <td><?php echo $act['id_actividad']; ?></td>
+              <td><?php echo $act['nombre_actividad']; ?></td>
+              <td><?php echo $act['dni_monitor']; ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php else: ?>
+      <p>No hay actividades registradas.</p>
+    <?php endif; ?>
+  </div>
+
+  <!-- GESTION CRONOGRAMA_ACTIVIDAD -->
+  <div class="bloque">
+    <h2>Gestionar Cronograma-Actividad</h2>
+    <!-- Crear Relación -->
+    <form method="POST">
+      <input type="hidden" name="entity" value="cronograma_actividad">
+      <input type="hidden" name="action" value="create">
+      
+      <label>ID Cronograma (FK):</label>
+      <input type="number" name="id_cronograma" required>
+      
+      <label>ID Actividad (FK):</label>
+      <input type="number" name="id_actividad" required>
+      
+      <label>Hora Asignada:</label>
+      <input type="time" name="hora_asignada" required>
+      
+      <label>Duración (minutos):</label>
+      <input type="number" name="duracion" required>
+      
+      <button type="submit">Crear Relación</button>
+    </form>
+
+    <!-- Eliminar Relación -->
+    <form method="POST">
+      <input type="hidden" name="entity" value="cronograma_actividad">
+      <input type="hidden" name="action" value="delete">
+      
+      <label>ID Cronograma:</label>
+      <input type="number" name="id_cronograma" required>
+      
+      <label>ID Actividad:</label>
+      <input type="number" name="id_actividad" required>
+      
+      <button type="submit">Eliminar Relación</button>
+    </form>
+
+    <!-- LISTADO DE CRONOGRAMA_ACTIVIDAD -->
+    <?php if (!empty($cronogramaActividades)): ?>
+      <table>
+        <caption>Cronograma - Actividad (asociaciones)</caption>
+        <thead>
+          <tr>
+            <th>ID Cronograma</th>
+            <th>Fecha</th>
+            <th>ID Actividad</th>
+            <th>Nombre Actividad</th>
+            <th>Hora Asignada</th>
+            <th>Duración (min)</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php foreach ($cronogramaActividades as $ca): ?>
+            <tr>
+              <td><?php echo $ca['id_cronograma']; ?></td>
+              <td><?php echo $ca['fecha']; ?></td>
+              <td><?php echo $ca['id_actividad']; ?></td>
+              <td><?php echo $ca['nombre_actividad']; ?></td>
+              <td><?php echo $ca['hora_asignada']; ?></td>
+              <td><?php echo $ca['duracion']; ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
+      </table>
+    <?php else: ?>
+      <p>No hay relaciones Cronograma-Actividad registradas.</p>
+    <?php endif; ?>
+  </div>
+
+</div> <!-- Fin contenedor -->
+</body>
+</html>

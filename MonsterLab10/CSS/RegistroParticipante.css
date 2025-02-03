@@ -1,0 +1,258 @@
+
+:root {
+    --primary-color: rgb(121, 108, 197);
+}
+*, *::before, *::after {
+    box-sizing: border-box;
+}
+
+body {
+    font-family: monospace, 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin: 0;
+    display: grid;
+    place-items: center;
+    min-height: 100vh;
+}
+input {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+textarea {
+    display: block;
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #ccc;
+    border-radius: 0.25rem;
+}
+label {
+    display: block;
+    margin-bottom: 0.5rem;
+}
+
+/* Styles para botones */
+.width-50 {
+    width: 50%;
+}
+.ml-auto {
+    margin-left: auto;
+}
+/* creditos */
+.text-center, .text-center a {
+    text-decoration: none;
+    text-align: center;
+}
+.text-center a {
+    text-decoration: none;
+    font-size: 14px;
+}
+
+/* la barra de progreso */
+.progressbar {
+    position: relative;
+    display: flex;
+    justify-content: space-between;  /* Esto ya distribuye los pasos, pero ajustaremos el margen entre ellos */
+    counter-reset: step;
+    margin: 2rem 0 4rem;
+    width: 100%;
+}
+
+.progressbar::before, .progress {
+    content: "";
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    height: 4px;
+    width: 100%;
+    background-color: #dcdcdc;
+    z-index: -1;
+}
+
+.progress {
+    background-color: var(--primary-color);
+    width: 0%;
+    transition: 0.3s;
+    z-index: -1;
+}
+
+.progress-step {
+    width: 2.5rem; /* Aumentar el tamaño del paso para mayor visibilidad */
+    height: 2.5rem; /* Aumentar el tamaño del paso */
+    background-color: #dcdcdc;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 0 1.5rem; /* Aumenta el espacio entre los pasos */
+    position: relative;
+}
+
+.progress-step::before {
+    counter-increment: step;
+    content: counter(step);
+}
+
+.progress-step::after {
+    content: attr(data-title);
+    position: absolute;
+    top: calc(100% + 0.5rem);
+    font-size: 0.85rem;
+    color: #666;
+}
+
+.progress-step-active {
+    background-color: var(--primary-color);
+    color: #f3f3f3;
+}
+
+/* Styles para formulario*/
+.form {
+    width: 30rem;
+    margin: 0 auto;
+    border: 1px solid #ccc;
+    border-radius: 0.35rem;
+    padding: 1.5rem;
+
+}
+
+/* estilos para input group */
+.input-group {
+    margin: 2rem 0;
+}
+.form-step {
+    display: none;
+    transform-origin: top;
+    animation: animate 0.5s;
+}
+
+.input-group2 {
+    display: flex;
+    align-items: center;
+    margin: 2rem 0;
+}
+
+.input-group2 input[type="radio"] {
+    margin: 0;
+}
+
+/* mensaje de registro */
+.message-register{
+    text-align: center;
+    margin-bottom: 15px;
+    color: green;
+}
+
+@keyframes animate {
+    from {
+        transform: scale(1, 0);
+        opacity: 0;
+    }
+    to {
+        transform: scale(1, 1);
+        opacity: 1;
+    }
+}
+.form-step-active {
+    display: block;
+}
+
+/* botones */
+.btns-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+}
+
+.btn{
+    padding:  0.75rem;
+    display: block;
+    text-decoration: none;
+    background-color: var(--primary-color);
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    border-radius: 0.25rem;
+    transition: 0.3s;
+}
+
+.btn:hover {
+    box-shadow: 0 0 0 2px #fff, 0 0 0 3px var(--primary-color);
+}
+
+
+/* Redes sociales */
+.social_media_div{
+    position: fixed;
+    left: 0;
+    bottom: 20px;
+
+    
+}
+
+/* WhatsApp */
+.social-icon {
+    width: 40px; /* Ajusta el tamaño según tus necesidades */
+    height: 40px;
+    border-radius: 50%; /* Opción para hacer que la imagen sea circular */
+    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.12); /* Efecto similar al original */
+}
+
+.social_media_div li{
+    list-style: none;
+    margin-bottom: 20px;
+    background-color: #fff;
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    transition: all 0.4s;
+    font-size: 20px;
+}
+.social_media_div li a {
+    text-decoration: none;
+}
+.social_media_div li a i {
+    color: black;
+    width: 2.1875rem;
+    height: 2.1875rem;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    box-shadow: 0px 0px 10px 10px rgba(0, 0, 0, 0.12);
+}
+  
+.social_media_div li:hover{
+    -moz-transform: rotate(360deg);
+    -webkit-transform: rotate(360deg);
+    -ms--transform: rotate(360deg);
+    transform: rotate(360deg);
+    -webkit-transition: all 0.4s;
+    -moz-transition: all 0.4s;
+    -o-transition: all 0.4s;
+    -ms-transition: all 0.4s;
+    transition: all 0.4s;
+}
+
+/* Estilo para campos inválidos */
+.invalid {
+    border: 2px solid red;
+  }
+  
+  /* Estilo para los mensajes de validación */
+  .validation-message {
+    color: red;
+    font-size: 0.9em;
+    margin-top: 5px;
+  }
+  
+
+/* Responsive*/
+@media (max-width: 850px) {
+    .form {
+        width: 100vw;
+    }
+}
