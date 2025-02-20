@@ -14,7 +14,7 @@ class HomeController { // * Clase HomeController: Aqui se define el controlador 
         $data = $model->getData();
 
         // Cargar la vista completa, que ya contiene header, footer, etc.
-        $viewTemplate = file_get_contents(__DIR__ . '/../views/home.html');
+        $viewTemplate = file_get_contents(__DIR__ . '/../views/index.html');
         // $viewTemplate = str_replace('{{title}}', $data['title'], $viewTemplate);
         // $viewTemplate = str_replace('{{content}}', $data['content'], $viewTemplate);
         
